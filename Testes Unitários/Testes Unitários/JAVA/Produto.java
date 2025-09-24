@@ -2,13 +2,20 @@ public class Produto {
     private int id;
     private String nome;
     private double preco;
+    private int quantidade;
 
-    public Produto(int id, String nome, double preco) {
+    public Produto(int id, String nome, double preco, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
+        this.quantidade = quantidade;
     }
 
+    public Produto(int id, String nome, double preco) {
+        this(id, nome, preco, 0); // quantidade padrão 0
+    }
+
+    // Getters e setters
     public int getId() {
         return id;
     }
@@ -33,8 +40,16 @@ public class Produto {
         this.preco = preco;
     }
 
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
     @Override
     public String toString() {
-        return id + " - " + nome + " (R$ " + preco + ")";
+        return id + " - " + nome + " (R$ " + preco + ", Estoque: " + quantidade + ")";
     }
 }

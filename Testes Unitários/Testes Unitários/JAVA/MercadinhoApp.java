@@ -11,6 +11,7 @@ public class MercadinhoApp extends JFrame {
     private JTextField campoId = new JTextField(5);
     private JTextField campoNome = new JTextField(10);
     private JTextField campoPreco = new JTextField(7);
+    private JTextField campoQuantidade = new JTextField(5); // Campo de quantidade
 
     public MercadinhoApp() {
         super("Mercadinho CRUD");
@@ -25,6 +26,8 @@ public class MercadinhoApp extends JFrame {
         painelEntrada.add(campoNome);
         painelEntrada.add(new JLabel("Preço:"));
         painelEntrada.add(campoPreco);
+        painelEntrada.add(new JLabel("Quantidade:"));
+        painelEntrada.add(campoQuantidade);
 
         JButton btnAdd = new JButton("Adicionar");
         JButton btnUpdate = new JButton("Atualizar");
@@ -50,31 +53,35 @@ public class MercadinhoApp extends JFrame {
                     campoId.setText(String.valueOf(p.getId()));
                     campoNome.setText(p.getNome());
                     campoPreco.setText(String.valueOf(p.getPreco()));
+                    campoQuantidade.setText(String.valueOf(p.getQuantidade()));
                 }
             }
         });
 
-        setSize(600, 400);
+        setSize(700, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
+    // Adicionar produto
     void adicionarProduto() {
         try {
             int id = Integer.parseInt(campoId.getText());
             String nome = campoNome.getText();
             double preco = Double.parseDouble(campoPreco.getText());
+            int quantidade = Integer.parseInt(campoQuantidade.getText());
 
-            Produto p = new Produto(id, nome, preco);
+            Produto p = new Produto(id, nome, preco, quantidade);
             produtos.add(p);
             listModel.addElement(p.toString());
 
             limparCampos();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar produto!");
+            JOptionPane.showMessageDialog(this, "Erro ao adicionar produto! Verifique os dados.");
         }
     }
 
+    // Atualizar produto
     private void atualizarProduto() {
         int index = listaProdutos.getSelectedIndex();
         if (index >= 0) {
@@ -82,18 +89,20 @@ public class MercadinhoApp extends JFrame {
                 int id = Integer.parseInt(campoId.getText());
                 String nome = campoNome.getText();
                 double preco = Double.parseDouble(campoPreco.getText());
+                int quantidade = Integer.parseInt(campoQuantidade.getText());
 
-                Produto p = new Produto(id, nome, preco);
+                Produto p = new Produto(id, nome, preco, quantidade);
                 produtos.set(index, p);
                 listModel.set(index, p.toString());
 
                 limparCampos();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao atualizar produto!");
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar produto! Verifique os dados.");
             }
         }
     }
 
+    // Remover produto
     private void removerProduto() {
         int index = listaProdutos.getSelectedIndex();
         if (index >= 0) {
@@ -103,10 +112,12 @@ public class MercadinhoApp extends JFrame {
         }
     }
 
+    // Limpar campos
     private void limparCampos() {
         campoId.setText("");
         campoNome.setText("");
         campoPreco.setText("");
+        campoQuantidade.setText("");
     }
 
     public static void main(String[] args) {
